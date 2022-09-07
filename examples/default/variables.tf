@@ -66,28 +66,7 @@ variable "network_acls" {
     })
   )
 
-  default = [
-    {
-      name              = "vpc-acl"
-      add_cluster_rules = true
-      rules = [
-        {
-          name        = "allow-all-inbound"
-          action      = "allow"
-          direction   = "inbound"
-          destination = "0.0.0.0/0"
-          source      = "0.0.0.0/0"
-        },
-        {
-          name        = "allow-all-outbound"
-          action      = "allow"
-          direction   = "outbound"
-          destination = "0.0.0.0/0"
-          source      = "0.0.0.0/0"
-        }
-      ]
-    }
-  ]
+  default = []
 
   validation {
     error_message = "ACL rules can only have one of `icmp`, `udp`, or `tcp`."
