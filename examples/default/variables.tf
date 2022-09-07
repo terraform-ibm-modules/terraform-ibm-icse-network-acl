@@ -5,11 +5,13 @@
 variable "prefix" {
   description = "The prefix that you would like to append to your resources"
   type        = string
+  default     = null
 }
 
 variable "vpc_id" {
   description = "ID of the VPC where address prefixes will be created"
   type        = string
+  default     = null
 }
 
 variable "tags" {
