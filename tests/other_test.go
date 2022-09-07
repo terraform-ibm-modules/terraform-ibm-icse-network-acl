@@ -13,7 +13,7 @@ const nonDefaultExampleTerraformDir = "examples/non-default"
 func TestRunNonDefaultExample(t *testing.T) {
 	t.Parallel()
 
-	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
+	options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
 		Testing:       t,
 		TerraformDir:  nonDefaultExampleTerraformDir,
 		Prefix:        "non-default-tmp",
