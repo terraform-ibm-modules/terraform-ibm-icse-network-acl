@@ -5,7 +5,6 @@
 variable "prefix" {
   description = "The prefix that you would like to append to your resources"
   type        = string
-  default     = null
 }
 
 variable "vpc_id" {
@@ -76,7 +75,13 @@ variable "network_acls" {
       # Get flat list of results
       flatten([
         # Check through rules
-        for rule in flatten([var.network_acls.*.rules]) :
+        for rule in flatten([
+          for acl in var.network_acls :
+          [
+            for rule in acl.rules :
+            rule
+          ]
+        ]) :
         # Return true if there is more than one of `icmp`, `udp`, or `tcp`
         true if length(
           [
@@ -93,7 +98,13 @@ variable "network_acls" {
     condition = length(distinct(
       flatten([
         # Check through rules
-        for rule in flatten([var.network_acls.*.rules]) :
+        for rule in flatten([
+          for acl in var.network_acls :
+          [
+            for rule in acl.rules :
+            rule
+          ]
+        ]) :
         # Return false action is not valid
         false if !contains(["allow", "deny"], rule.action)
       ])
@@ -105,7 +116,13 @@ variable "network_acls" {
     condition = length(distinct(
       flatten([
         # Check through rules
-        for rule in flatten([var.network_acls.*.rules]) :
+        for rule in flatten([
+          for acl in var.network_acls :
+          [
+            for rule in acl.rules :
+            rule
+          ]
+        ]) :
         # Return false if direction is not valid
         false if !contains(["inbound", "outbound"], rule.direction)
       ])
@@ -117,7 +134,13 @@ variable "network_acls" {
     condition = length(distinct(
       flatten([
         # Check through rules
-        for rule in flatten([var.network_acls.*.rules]) :
+        for rule in flatten([
+          for acl in var.network_acls :
+          [
+            for rule in acl.rules :
+            rule
+          ]
+        ]) :
         # Return false if direction is not valid
         false if !can(regex("^([a-z]|[a-z][-a-z0-9]*[a-z0-9])$", rule.name))
       ])
