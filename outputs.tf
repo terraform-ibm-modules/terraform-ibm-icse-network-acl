@@ -1,22 +1,18 @@
-/********************************************************************
+##############################################################################
+# ACL Outputs
+##############################################################################
 
-This file is used to capture ROOT module outputs.
-
-E.g:
-
-output "at_id" {
-  description = "Activity tracker id"
-  value       = concat(ibm_resource_instance.at_instance.*.id, [""])[0]
+output "acls" {
+  description = "List of Network ACL names and ids"
+  value = [
+    for network_acl in ibm_is_network_acl.acl :
+    {
+      id            = network_acl.id
+      name          = network_acl.name
+      first_rule_id = length(network_acl.rules) > 0 ? network_acl.rules[0].id : null
+    }
+  ]
 }
 
-output "at_guid" {
-  description = "The GUID of the activity tracker"
-  value       = concat(ibm_resource_instance.at_instance.*.guid, [""])[0]
-}
 
-output "at_key_id" {
-  description = "Activity tracker key id"
-  value       = concat(ibm_resource_key.activity_tracker_key.*.id, [""])[0]
-}
-
-*********************************************************************/
+##############################################################################
