@@ -71,30 +71,6 @@ variable "network_acls" {
   default = []
 
   validation {
-    error_message = "ACL rules can only have one of `icmp`, `udp`, or `tcp`."
-    condition = length(distinct(
-      # Get flat list of results
-      flatten([
-        # Check through rules
-        for rule in flatten([
-          for acl in var.network_acls :
-          [
-            for rule in acl.rules :
-            rule
-          ]
-        ]) :
-        # Return true if there is more than one of `icmp`, `udp`, or `tcp`
-        true if length(
-          [
-            for type in ["tcp", "udp", "icmp"] :
-            true if rule[type] != null
-          ]
-        ) > 1
-      ])
-    )) == 0 # Checks for length. If all fields all correct, array will be empty
-  }
-
-  validation {
     error_message = "ACL rule actions can only be `allow` or `deny`."
     condition = length(distinct(
       flatten([
