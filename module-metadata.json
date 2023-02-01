@@ -28,7 +28,6 @@
       "type": "string",
       "description": "The prefix that you would like to append to your resources",
       "default": "icse",
-      "required": true,
       "source": [
         "ibm_is_network_acl.acl.name"
       ],
@@ -38,7 +37,8 @@
       },
       "min_length": 1,
       "max_length": 63,
-      "matches": "^([a-z]|[a-z][-a-z0-9]*[a-z0-9])$"
+      "matches": "^([a-z]|[a-z][-a-z0-9]*[a-z0-9])$",
+      "computed": true
     },
     "tags": {
       "name": "tags",
